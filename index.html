@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gradient-to-r from-pink-400 to-red-300 text-white px-4">
+    <div class="bg-white text-gray-800 p-8 rounded-lg shadow-lg text-center w-full max-w-md">
+        <h1 class="text-3xl font-bold">🎉 Happy Birthday! 🎂</h1>
+        <p class="mt-4 text-lg">Dear [Sharon],</p>
+        <p class="mt-2">Wishing you a day filled with love, joy, and laughter. You are truly special and mean the world to me! ❤️</p>
+        <button class="mt-6 px-6 py-2 bg-pink-500 text-white rounded-lg shadow-md hover:bg-pink-700 transition duration-300" onclick="showLove()">Click for a Surprise!</button>
+        <p id="loveMessage" class="text-red-500 text-xl font-bold mt-4 hidden">❤️❤️❤️ I LOVE YOU SO MUCH! ❤️❤️❤️</p>
+        <canvas id="confettiCanvas" class="absolute top-0 left-0 w-full h-full pointer-events-none"></canvas>
+    </div>
+    <script>
+        function showLove() {
+            document.getElementById("loveMessage").classList.remove("hidden");
+            startConfetti();
+        }
+
+        function startConfetti() {
+            const canvas = document.getElementById("confettiCanvas");
+            const ctx = canvas.getContext("2d");
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let confetti = [];
+            for (let i = 0; i < 100; i++) {
+                confetti.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 6 + 2,
+                    d: Math.random() * 2 + 2,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`
+                });
+            }
+
+            function drawConfetti() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confetti.forEach((c, i) => {
+                    ctx.beginPath();
+                    ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+                    ctx.fillStyle = c.color;
+                    ctx.fill();
+                    c.y += c.d;
+                    if (c.y > canvas.height) c.y = 0;
+                });
+                requestAnimationFrame(drawConfetti);
+            }
+
+            drawConfetti();
+        }
+    </script>
+</body>
+</html>
